@@ -14,7 +14,7 @@ def extract_keywords(filename):
 def count_all_occurrences(pdf_str, keywords):
     counts = {keyword: 0 for keyword in keywords}
     for keyword in keywords:
-        if keyword in pdf_str:
+        if keyword in pdf_str.lower():
             counts[keyword] += 1
     return counts
 

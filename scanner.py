@@ -13,6 +13,7 @@ def extract_keywords(filename):
 
 def count_all_occurrences(pdf_str, keywords):
     counts = {keyword: 0 for keyword in keywords}
+    print(pdf_str.lower())
     for keyword in keywords:
         counts[keyword] = pdf_str.lower().count(keyword)
     return counts
@@ -23,8 +24,7 @@ def extract_text_from_pdf(pdf_file):
         text = []
 
         for page in reader.pages:
-            content = page.extract_text()
-            text.append(content)
+            text.append(page.extract_text())
 
     return text
     
@@ -41,8 +41,10 @@ if __name__ == '__main__':
         field = ['article_id'] + [keyword for keyword in keywords]
         writer.writerow(field)
         for pdf in pdfs:
-            extracted_text = extract_text_from_pdf(pdf)[0].replace('\n', ' ')
+            extracted_text = extract_text_from_pdf(pdf)
+            extracted_text = ' '.join(extracted_text).replace('\n', ' ')
             counts = count_all_occurrences(extracted_text, keywords)
             filename = str(pdf)[str(pdf).rindex("\\") + 1:len(str(pdf))-4]
-            row = [filename] + list(counts.values())
+            print('Scanning:', pdf)
+            row = [pdf] + list(counts.values())
             writer.writerow(row)

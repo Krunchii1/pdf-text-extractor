@@ -14,8 +14,7 @@ def extract_keywords(filename):
 def count_all_occurrences(pdf_str, keywords):
     counts = {keyword: 0 for keyword in keywords}
     for keyword in keywords:
-        if keyword in pdf_str.lower():
-            counts[keyword] += 1
+        counts[keyword] = pdf_str.lower().count(keyword)
     return counts
 
 def extract_text_from_pdf(pdf_file):
@@ -37,13 +36,11 @@ if __name__ == '__main__':
 
     keywords = extract_keywords('keywords.txt')
 
-    with open('result.csv', 'w', newline='') as file:
+    with open('result1.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         field = ['article_id'] + [keyword for keyword in keywords]
         writer.writerow(field)
         for pdf in pdfs:
-            print(pdf)
-            print(str(pdf))
             extracted_text = extract_text_from_pdf(pdf)[0].replace('\n', ' ')
             counts = count_all_occurrences(extracted_text, keywords)
             filename = str(pdf)[str(pdf).rindex("\\") + 1:len(str(pdf))-4]

@@ -42,6 +42,8 @@ if __name__ == '__main__':
         field = ['article_id'] + [keyword for keyword in keywords]
         writer.writerow(field)
         for pdf in pdfs:
+            print(pdf)
+            print(str(pdf))
             extracted_text = extract_text_from_pdf(pdf)[0].replace('\n', ' ')
             counts = count_all_occurrences(extracted_text, keywords)
             filename = str(pdf)[str(pdf).rindex("\\") + 1:len(str(pdf))-4]
